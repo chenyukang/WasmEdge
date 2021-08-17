@@ -18,7 +18,11 @@ impl Config {
 
 impl Default for Config {
     fn default() -> Self {
-        let ctx = unsafe { ffi::WasmEdge_ConfigureCreate() };
+        let ctx = unsafe {
+            let conf: *mut ffi::WasmEdge_ConfigureContext = ffi::WasmEdge_ConfigureCreate();
+            ffi::WasmEdge_ConfigureAddHostRegistration(conf, ffi::WasmEdge_HostRegistration_Wasi);
+            conf
+        };
         if ctx.is_null() {
             panic!("failed to create WasmEdge configuration");
         }
