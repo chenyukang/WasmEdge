@@ -54,6 +54,7 @@ docker pull wasmedge/wasmedge # Pulls the latest - wasmedge/wasmedge:latest
 sudo apt install -y \
    software-properties-common \
    cmake \
+   ninja-build \
    libboost-all-dev
 
 # And you will need to install llvm for wasmedgec tool
@@ -102,6 +103,8 @@ You can find that there are several wasmedge related tools:
    - If you want to try `ssvm-qitc`, please refer to [ONNC-Wasm](https://github.com/ONNC/onnc-wasm) project to set up the working environment and tryout several examples.
    - And here is our [tutorial for ONNC-Wasm project(YouTube Video)](https://www.youtube.com/watch?v=cbiPuHMS-iQ).
 
+### Using Docker
+
 ```bash
 # After pulling our wasmedge docker image
 docker run -it --rm \
@@ -109,13 +112,16 @@ docker run -it --rm \
     wasmedge/wasmedge:latest
 # In docker
 cd /root/wasmedge
-# If you don't use docker then you need to run only the following commands in the cloned repository root
-mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DWASMEDGE_BUILD_TESTS=ON .. && make -j
+
+### Build from source
+
+If you don't use docker then you need to run only the following commands in the cloned repository root
+
+```bash
+cmake -Bbuild -GNinja -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DWASMEDGE_BUILD_TESTS=ON .
+
+cmake --build build
 ```
-
-
-### If you don't want to build Ahead-of-Time runtime/compiler
 
 If you don't need Ahead-of-Time runtime/compiler support, you can set the CMake option `WASMEDGE_BUILD_AOT_RUNTIME` to `OFF`.
 
