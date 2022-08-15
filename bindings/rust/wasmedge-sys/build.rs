@@ -1,3 +1,4 @@
+use core::panic;
 use std::path::PathBuf;
 
 const WASMEDGE_H: &str = "wasmedge.h";
